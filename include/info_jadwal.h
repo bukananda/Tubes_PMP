@@ -14,6 +14,6 @@ void get_jadwal_bulan(Jadwal jadwal_dokter[], Jadwal *jadwal_bulan);
 void jumlahPelanggaran(Jadwal jadwal_dokter[]);
 void jumlahShiftDokter(NodeDataJadwal **headDataJadwal, NodeDataJadwal **tailDataJadwal, Jadwal jadwal_dokter[], char *nama_file);
 void pemilihanJadwal(Jadwal jadwal_dokter[], char *nama_file);
-void pilihanTampilan(NodeDataJadwal **head);
+void pilihanTampilan(NodeDataJadwal **head, NodeDataJadwal **tail);
 
 #endif

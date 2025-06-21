@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 #include "../include/jadwal.h"
 #include "../include/info_jadwal.h"
 
@@ -185,12 +186,23 @@ int countShift(char nama_dokter[], Jadwal jadwal_dokter[]){
 
 // Menghitung jumlah shift pada semua dokter
 void jumlahShiftDokter(NodeDataJadwal **headDataJadwal, NodeDataJadwal **tailDataJadwal, Jadwal jadwal_dokter[], char *nama_file){
+    if(*headDataJadwal != NULL && *tailDataJadwal != NULL){
+        NodeDataJadwal *curr = *headDataJadwal;
+        while(curr != NULL){
+            NodeDataJadwal *next = curr->next;
+            free(curr);
+            curr = next;
+        }
+        *headDataJadwal = NULL;
+        *tailDataJadwal = NULL;
+    }
     NodeData *head = NULL; NodeData *tail = NULL;
     FILE *fptr = fopen(nama_file, "r");
     readCSV(&head, &tail, fptr);
-    while(head != NULL){
-        insertTailDataJadwal(headDataJadwal, tailDataJadwal, head->data_dokter, countShift(head->data_dokter.nama, jadwal_dokter));
-        head = head->next;
+    NodeData *curr = head;
+    while(curr != NULL){
+        insertTailDataJadwal(headDataJadwal, tailDataJadwal, curr->data_dokter, countShift(curr->data_dokter.nama, jadwal_dokter));
+        curr = curr->next;
     }
 }
 
@@ -357,9 +369,8 @@ void pemilihanJadwal(Jadwal jadwal_dokter[], char *nama_file){
     }
 }
 
-void TampilkanShift1(NodeDataJadwal **head, char *nama){
-    NodeDataJadwal *curr = (NodeDataJadwal *)malloc(sizeof(NodeDataJadwal));
-    curr = (*head);
+void TampilkanShift1(NodeDataJadwal **head, NodeDataJadwal **tail, char *nama){
+    NodeDataJadwal *curr = *head;
     while(curr != NULL){
         if(!strcmp(curr->data_dokter.nama, nama)){
             printf("\nNama: %s\n",curr->data_dokter.nama);
@@ -381,7 +392,7 @@ void TampilkanShiftAll(NodeDataJadwal **head){
     }
 }
 
-void pilihanTampilan(NodeDataJadwal **head){
+void pilihanTampilan(NodeDataJadwal **head, NodeDataJadwal **tail){
     char *nama = (char *)malloc(100*sizeof(char));
     int pilihan = 0;
 
@@ -390,10 +401,23 @@ void pilihanTampilan(NodeDataJadwal **head){
     if(pilihan == 0){
         printf("Masukkan nama: ");
         scanf("%s", nama);
-        TampilkanShift1(head, nama);
+        TampilkanShift1(head, tail, nama);
     } else if (pilihan == 1){
         TampilkanShiftAll(head);
     } else {
         printf("Pilihan tidak valid.\n\n");
     }
 }
+
+// int main(){
+//     NodeDataJadwal *head = NULL; NodeDataJadwal *tail = NULL;
+//     srand(time(NULL));
+
+//     Jadwal jadwal_dokter[30];
+
+//     AllComponentJadwal(jadwal_dokter, "../data_dokter.csv", 0);
+//     printAllJadwal(jadwal_dokter);
+//     jumlahShiftDokter(&head,&tail,jadwal_dokter,"../data_dokter.csv");
+//     TampilkanShift1(&head, "Citra97");
+//     return 0;
+// }

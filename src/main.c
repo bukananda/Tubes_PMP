@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "../include/pengelolaanData.h"
 #include "../include/jadwal.h"
 #include "../include/info_jadwal.h"
 
-char *namaFile = "data_dokter.csv";
+char *namaFile = "dataFile/data_dokter.csv";
 
 int main() {
+    srand(time(NULL));
     Jadwal jadwal_dokter[30];
     NodeDataJadwal *headDataJadwal = NULL; NodeDataJadwal *tailDataJadwal = NULL;
     int pilihan;
@@ -37,10 +39,11 @@ int main() {
             case 5:
                 AllComponentJadwal(jadwal_dokter, namaFile, 0);
                 jumlahShiftDokter(&headDataJadwal, &tailDataJadwal, jadwal_dokter, namaFile);
+                printf("Penjadwalan berhasil dilakukan.\n");
                 break;
-            case 6: pemilihanJadwal(jadwal_dokter, "jadwal.csv"); break;
+            case 6: pemilihanJadwal(jadwal_dokter, "dataFile/jadwal.csv"); break;
             case 7: jumlahPelanggaran(jadwal_dokter); break;
-            case 8: pilihanTampilan(&headDataJadwal); break;
+            case 8: pilihanTampilan(&headDataJadwal, &tailDataJadwal); break;
             case 0: printf("Keluar dari program.\n"); break;
             default: printf("Pilihan tidak valid.\n"); break;
         }

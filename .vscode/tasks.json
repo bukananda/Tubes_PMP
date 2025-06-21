@@ -8,6 +8,9 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
+                "${fileDirname}\\jadwal.c",
+                "${fileDirname}\\info_jadwal.c",
+                "${fileDirname}\\pengelolaanData.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
