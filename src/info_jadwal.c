@@ -400,7 +400,7 @@ void pilihanTampilan(NodeDataJadwal **head, NodeDataJadwal **tail){
     scanf("%d", &pilihan);
     if(pilihan == 0){
         printf("Masukkan nama: ");
-        scanf("%s", nama);
+        scanf(" %[^\n]", nama);
         TampilkanShift1(head, tail, nama);
     } else if (pilihan == 1){
         TampilkanShiftAll(head);
