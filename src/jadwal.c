@@ -292,14 +292,130 @@ void AllComponentJadwal(Jadwal jadwal_dokter[], char *nama_file, int inisialisas
     penjadwalan(jadwal_dokter, &head, &tail, &head1, &head2, jumlah_pagi, jumlah_siang, jumlah_malam);
 };
 
+Data searchDataDokterByName(NodeData **head, NodeData **tail, char *nama){
+    NodeData *curr = *head;
+    while(curr != NULL){
+        if(strcmp(curr->data_dokter.nama, nama) == 0){
+            return curr->data_dokter; // Jika nama dokter ditemukan, kembalikan data dokter tersebut
+        }
+        curr = curr->next;
+    }
+}
+
+void split_by_delim(const char *src, char delim, char tokens[][100], int *count) {
+    const char *start = src;
+    const char *ptr;
+    *count = 0;
+    while ((ptr = strchr(start, delim)) != NULL) {
+        int len = ptr - start;
+        strncpy(tokens[*count], start, len);
+        tokens[*count][len] = '\0';
+        (*count)++;
+        start = ptr + 1;
+    }
+    // Token terakhir
+    strcpy(tokens[*count], start);
+    (*count)++;
+}
+
+void readCSVJadwal(Jadwal jadwal_dokter[],FILE *fptr_data_dokter, FILE *fptr_jadwal){
+    NodeData *head = NULL; NodeData *tail = NULL;
+
+    readCSV(&head, &tail, fptr_data_dokter);
+
+    char line[1000];
+    char string_pagi[1000];
+    char string_siang[1000];
+    char string_malam[1000];
+
+    char tokens[100][100]; // Array untuk menyimpan token yang dipecah
+
+    char *tok; char *tok2;
+    fgets(line, sizeof(line), fptr_jadwal); // Membaca header dari file jadwal
+
+    // Menghitung jumlah shift pagi, siang, dan malam dari header
+    tok = strtok(line, ";"); // hari
+    tok = strtok(NULL, ";"); // shift pagi
+    int jumlah_pagi = 1;
+    for (char *p = tok; *p; p++) if (*p == ',') jumlah_pagi++;
+
+    tok = strtok(NULL, ";"); // shift siang
+    int jumlah_siang = 1;
+    for (char *p = tok; *p; p++) if (*p == ',') jumlah_siang++;
+
+    tok = strtok(NULL, ";"); // shift malam
+    int jumlah_malam = 1;
+    for (char *p = tok; *p; p++) if (*p == ',') jumlah_malam++;
+
+    // Inisialisasi shift pagi, siang, dan malam pada setiap jadwal
+    for(int i = 0; i < 30; i++){
+        jadwal_dokter[i].shift_pagi = (Data *) malloc(sizeof(Data)*(jumlah_pagi+1));
+        jadwal_dokter[i].shift_siang = (Data *) malloc(sizeof(Data)*(jumlah_siang+1));
+        jadwal_dokter[i].shift_malam = (Data *) malloc(sizeof(Data)*(jumlah_malam+1));
+    }
+
+    rewind(fptr_jadwal); // Mengembalikan pointer file ke awal
+    // Membaca data jadwal dari file jadwal
+    int hari = 1;
+    int idx = 0; // Inisialisasi indeks untuk shift
+    while(fgets(line, sizeof(line), fptr_jadwal)){
+        tok = strtok(line, ";");
+        jadwal_dokter[hari-1].hari = atoi(tok); // Mengambil hari dari data jadwal
+
+        // Shift pagi
+        tok = strtok(NULL, ";");
+        strcpy(string_pagi, tok); // Mengambil string shift pagi
+        idx = 0; // Reset indeks untuk shift pagi
+        if(tok != NULL){
+            split_by_delim(string_pagi, ',', tokens, &idx); // Memecah string shift pagi berdasarkan koma
+            for(int i = 0; i < idx; i++){
+                jadwal_dokter[hari-1].shift_pagi[i] = searchDataDokterByName(&head, &tail, tokens[i]);
+            }
+        }
+
+        // Shift siang
+        tok = strtok(0, ";");
+        strcpy(string_siang, tok); // Mengambil string shift siang
+        idx = 0;
+        if(tok != NULL){
+            split_by_delim(string_siang, ',', tokens, &idx); // Memecah string shift siang berdasarkan koma
+            for(int i = 0; i < idx; i++){
+                jadwal_dokter[hari-1].shift_siang[i] = searchDataDokterByName(&head, &tail, tokens[i]);
+            }
+        }
+
+        // Shift malam
+        tok = strtok(NULL, ";");
+        strcpy(string_malam, tok); // Mengambil string shift malam
+        idx = 0;
+        if(tok != NULL){
+            split_by_delim(string_malam, ',', tokens, &idx); // Memecah string shift malam berdasarkan koma
+            for(int i = 0; i < idx; i++){
+                jadwal_dokter[hari-1].shift_malam[i] = searchDataDokterByName(&head, &tail, tokens[i]);
+            }
+        }
+
+        if(hari == 30){
+            return; // Jika sudah mencapai hari ke-30, keluar dari loop
+        }
+        hari++; // Tambahkan ini agar hari bertambah setiap iterasi
+    }
+}
 // // Fungsi mainnya
 // int main(void){
-//     NodeDataJadwal *head = NULL; NodeDataJadwal *tail = NULL;
-//     srand(time(NULL));
+//     Jadwal jadwal_dokter[30]; // Inisialisasi array jadwal dokter sebanyak 30 hari
+//     FILE *fptr_data_dokter = fopen("../dataFile/data_dokter.csv", "r");
+//     FILE *fptr_jadwal = fopen("../dataFile/jadwal.csv", "r");
 
-//     Jadwal jadwal_dokter[30];
+//     readCSVJadwal(jadwal_dokter, fptr_data_dokter, fptr_jadwal); // Membaca data dokter dan jadwal dari file CSV
+//     fclose(fptr_data_dokter);
+//     fclose(fptr_jadwal);
+//     // NodeDataJadwal *head = NULL; NodeDataJadwal *tail = NULL;
+//     // srand(time(NULL));
 
-//     AllComponentJadwal(jadwal_dokter, "data_dokter.csv");
-//     printAllJadwal(jadwal_dokter);
-//     return (0);
+//     // Jadwal jadwal_dokter[30];
+
+//     // AllComponentJadwal(jadwal_dokter, "data_dokter.csv");
+//     // printAllJadwal(jadwal_dokter);
+//     // return (0);
 // }
