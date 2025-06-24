@@ -1,0 +1,234 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Jadwal</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f4f4] px-10 py-3">
+          <a class="flex items-center gap-2 text-[#111718] cursor-default" href="main.html">
+            <div class="size-10">
+              <img class="h-50 w-50 object-contain" src="favicon.png"/>
+            </div>
+            <div class="flex flex-col gap-1/2">
+              <h2 class="text-[#111718] text-md font-bold leading-tight tracking-[-0.015em]">Management System</h2>
+              <p class="text-[#111718] text-xl font-normal leading-tight tracking-[-0.015em]">RS Semoga Sehat Selalu</p>
+            </div>
+          </a>
+
+          <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+              <div class="flex flex-col">
+                <a class="text-[#111718] text-sm font-medium leading-normal border-b border-transparent hover:border-black" href="main.html">Beranda</a>
+              </div>
+              <a class="text-[#111718] text-sm font-medium leading-normal border-b border-black" href="#">Jadwal</a>
+            </div>
+            <button id="logout-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f0f4f4] text-[#111718] text-sm font-medium leading-normal tracking-[0.015em] hover:bg-[#2196f3] hover:text-white">
+              <span class="truncate">Keluar</span>
+            </button>
+            <div class="flex items-center gap-4">
+              <p id="admin-name" class="text-sm"></p>
+              <div
+                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                style='background-image: url("user.png");'
+              ></div>
+            </div>
+          </div>
+        </header>
+
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="relative flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#111718] tracking-light text-[32px] font-bold leading-tight min-w-72">Jadwal Dokter</p></div>
+
+            <div class="flex flex-row justify-center content-evenly gap-2">
+              <div class="flex flex-wrap items-center justify-center gap-6 p-4">
+                <div class="flex min-w-72 min-w-[560px] w-full flex-1 flex-col">
+                  <div class="flex items-center p-1 justify-between">
+                    <button id="calendar-swap-left-btn">
+                      <div class="text-[#111718] flex size-10 items-center justify-center" data-icon="CaretLeft" data-size="18px" data-weight="regular">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                          <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+                        </svg>
+                      </div>
+                    </button>
+                    <p id="date-text" class="text-[#111718] text-base font-bold leading-tight flex-1 text-center"></p>
+                    <button id="calendar-swap-right-btn">
+                      <div class="text-[#111718] flex size-10 items-center justify-center" data-icon="CaretRight" data-size="18px" data-weight="regular">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                          <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+                        </svg>
+                      </div>
+                    </button>
+                  </div>
+
+                  <!-- First row wrapper -->
+                  <div class="col-span-7 grid grid-cols-7 border-b-2 border-gray-500">
+                      <p class="text-[#111718] text-[13px] font-bold leading-normal tracking-[0.015em] flex h-20 w-full items-center justify-center pb-0.5 ">Sun</p>
+                      <p class="text-[#111718] text-[13px] font-bold leading-normal tracking-[0.015em] flex h-20 w-full items-center justify-center pb-0.5 ">Mon</p>
+                      <p class="text-[#111718] text-[13px] font-bold leading-normal tracking-[0.015em] flex h-20 w-full items-center justify-center pb-0.5 ">Tue</p>
+                      <p class="text-[#111718] text-[13px] font-bold leading-normal tracking-[0.015em] flex h-20 w-full items-center justify-center pb-0.5 ">Wed</p>
+                      <p class="text-[#111718] text-[13px] font-bold leading-normal tracking-[0.015em] flex h-20 w-full items-center justify-center pb-0.5 ">Thu</p>
+                      <p class="text-[#111718] text-[13px] font-bold leading-normal tracking-[0.015em] flex h-20 w-full items-center justify-center pb-0.5 ">Fri</p>
+                      <p class="text-[#111718] text-[13px] font-bold leading-normal tracking-[0.015em] flex h-20 w-full items-center justify-center pb-0.5 ">Sat</p>
+                    </div>
+
+                  <div id="calendar-grid" class="grid grid-cols-7">
+                    <!-- Dates to be added -->
+                  </div>
+                </div>
+              </div>
+            </div> 
+
+            <hr></hr>
+            <div id="auto-schedule-modal" class="flex flex-col mx-4 py-3 gap-2 text-md w-full max-w-[400px]">
+              <h2 class="font-medium">Mengatur jadwal otomatis (30 hari ke depan)</h2>
+
+              <div class="flex flex-row justify-between items-center w-full">
+                <p class="text-left">Shift pagi:</p>
+                <input
+                  id="doc-number-morning"
+                  placeholder="Masukkan jumlah dokter shift pagi"
+                  class="h-[40px] w-[270px] border border-gray-300 text-gray-700 text-sm tracking-wide rounded-lg p-3 focus:ring-1 focus:ring-[#1b7ecf] focus:border-none outline-none"
+                />
+              </div>
+              <div class="flex flex-row justify-between items-center w-full">
+                <p class="text-left">Shift siang:</p>
+                <input
+                  id="doc-number-noon"
+                  placeholder="Masukkan jumlah dokter shift siang"
+                  class="h-[40px] w-[270px] border border-gray-300 text-gray-700 text-sm tracking-wide rounded-lg p-3 focus:ring-1 focus:ring-[#1b7ecf] focus:border-none outline-none"
+                />
+              </div>
+
+              <div class="flex flex-row justify-between items-center w-full">
+                <p class="text-left">Shift malam:</p>
+                <input
+                  id="doc-number-night"
+                  placeholder="Masukkan jumlah dokter shift malam"
+                  class="h-[40px] w-[270px] border border-gray-300 text-gray-700 text-sm tracking-wide rounded-lg p-3 focus:ring-1 focus:ring-[#1b7ecf] focus:border-none outline-none"
+                />
+              </div>
+
+              <div class="flex flex-row justify-between items-center w-full">
+                <p class="text-left">Mulai tanggal:</p>
+                <input
+                  id="selected-date"
+                  disabled
+                  placeholder="Klik kanan pada tanggal di kalender"
+                  class="h-[40px] w-[270px] border border-gray-300 text-gray-700 text-sm tracking-wide rounded-lg p-3 focus:ring-1 focus:ring-[#1b7ecf] focus:border-none outline-none"
+                />
+              </div>
+              <p id="select-date-warning-txt" class="flex items-end text-sm text-red-500 pb-2 hidden"></p>
+              <button
+                id="auto-schedule-btn"
+                class="w-[120px] h-[40px] bg-[#2196f3] text-white px-2 py-2 rounded hover:bg-[#1b7ecf] text-sm"
+              >
+                Atur Otomatis
+              </button>
+            </div>
+            <hr></hr>
+
+            <h3 class="text-[#111718] text-xl font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Jadwal per minggu</h3>
+            <select
+              id="select-week-option"
+              class="mt-2 mx-4 block border border-gray-300 text-gray-700 text-sm rounded-lg p-4 pr-10 appearance-none focus:ring-1 focus:ring-[#1b7ecf] focus:border-none focus:outline-none outline-none bg-white
+              bg-[url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'%23677\'%3E%3Cpath fill-rule=\'evenodd\' d=\'M5.23 7.21a.75.75 0 011.06.02L10 11.584l3.71-4.354a.75.75 0 111.14.976l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z\' clip-rule=\'evenodd\'/%3E%3C/svg%3E')] bg-no-repeat bg-[right_0.75rem_center] bg-[length:1rem_1rem]"
+              >
+              <option selected value="week-1">Minggu 1</option>
+              <option value="week-2">Minggu 2</option>
+              <option value="week-3">Minggu 3</option>
+              <option value="week-4">Minggu 4</option>
+              <option value="week-5">Minggu 5</option>
+            </select>
+
+            <div class="px-4 py-3 pb-20">
+              <div class="flex overflow-x-hidden rounded-lg border border-[#dce4e5] bg-white">
+                <table class="flex-1 table-fixed w-full">
+                  <thead class="bg-white text-[#111718] text-sm font-medium">
+                    <tr>
+                      <th class="px-4 py-3 text-center w-[12.5%]"></th>
+                      <th id="first-day-txt" class="px-4 py-3 text-center w-[12.5%]">
+                        <div class="flex flex-col gap-1">
+                          <p class="text-md">Senin</p>
+                          <p class="text-xs">(dd-mm-yyy)</p>
+                        </div>
+                      </th>
+                      <th id="second-day-txt" class="px-4 py-3 text-center w-[12.5%]">
+                        <div class="flex flex-col gap-1">
+                          <p class="text-md">Selasa</p>
+                          <p class="text-xs">(dd-mm-yyy)</p>
+                        </div>
+                      </th>
+                      <th id="third-day-txt" class="px-4 py-3 text-center w-[12.5%]">
+                        <div class="flex flex-col gap-1">
+                          <p class="text-md">Rabu</p>
+                          <p class="text-xs">(dd-mm-yyy)</p>
+                        </div>
+                      </th>
+                      <th id="fourth-day-txt" class="px-4 py-3 text-center w-[12.5%]">
+                        <div class="flex flex-col gap-1">
+                          <p class="text-md">Kamis</p>
+                          <p class="text-xs">(dd-mm-yyy)</p>
+                        </div>
+                      </th>
+                      <th id="fifth-day-txt" class="px-4 py-3 text-center w-[12.5%]">
+                        <div class="flex flex-col gap-1">
+                          <p class="text-md">Jumat</p>
+                          <p class="text-xs">(dd-mm-yyy)</p>
+                        </div>
+                      </th>
+                      <th id="sixth-day-txt" class="px-4 py-3 text-center w-[12.5%]">
+                        <div class="flex flex-col gap-1">
+                          <p class="text-md">Sabtu</p>
+                          <p class="text-xs">(dd-mm-yyy)</p>
+                        </div>
+                      </th>
+                      <th id="seventh-day-txt" class="px-4 py-3 text-center w-[12.5%]">
+                        <div class="flex flex-col gap-1">
+                          <p class="text-md">Minggu</p>
+                          <p class="text-xs">(dd-mm-yyy)</p>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr id="morning-row" class="border-t border-t-[#dce4e5]">
+                      <td class="h-[72px] px-4 py-2 w-[400px] text-[#111718] sm:text-xs lg:text-sm font-normal leading-normal">
+                        Pagi
+                      </td>
+                    </tr>
+                    <tr id="noon-row" class="border-t border-t-[#dce4e5]">
+                      <td class="h-[72px] px-4 py-2 w-[400px] text-[#111718] sm:text-xs lg:text-sm font-normal leading-normal">
+                        Siang
+                      </td>
+                    </tr>
+                    <tr id="night-row" class="border-t border-t-[#dce4e5]">
+                      <td class="h-[72px] px-4 py-2 w-[400px] text-[#111718] sm:text-xs lg:text-sm font-normal leading-normal">
+                        Malam
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <script src="schedule-script.js"></script>
+  </body>
+</html>
