@@ -2,4 +2,4 @@
 Tugas PMP tentang implementasi bahasa C
 
 ## Note
-Aplikasi dapat langsung dijalankan dari folder dist yang berisikan installer standalone aplikasi. Silahkan menginstall dan mencobanya. Data dokter dan jadwal pada folder data secara default akan tersedia pula sebagai contoh.
+Aplikasi dapat diunduh secara langsung dari file setup/installer standalone aplikasi. Silahkan mengunduh dan mencobanya. Data dokter dan jadwal yang diinisialisasikan akan masih kosong. Contoh data di atas dapat pula di-copy-paste guna keperluan testing.
